@@ -618,15 +618,33 @@ function updateGalleryCounter() {
 
 function toggleGalleryFullscreen() {
     const gallery = document.querySelector('.gallery');
-    if (gallery) {
-        gallery.classList.toggle('gallery--fullscreen');
+    const galleryParent = document.querySelector('.detail-view__gallery');
+
+    if (!gallery) return;
+
+    if (gallery.classList.contains('gallery--fullscreen')) {
+        // Exit fullscreen - move back to original parent
+        gallery.classList.remove('gallery--fullscreen');
+        document.body.classList.remove('gallery-fullscreen-active');
+        if (galleryParent) {
+            galleryParent.insertBefore(gallery, galleryParent.firstChild);
+        }
+    } else {
+        // Enter fullscreen - move to body
+        gallery.classList.add('gallery--fullscreen');
+        document.body.classList.add('gallery-fullscreen-active');
+        document.body.appendChild(gallery);
     }
 }
 
 function exitGalleryFullscreen() {
-    const gallery = document.querySelector('.gallery');
-    if (gallery) {
+    const gallery = document.querySelector('.gallery--fullscreen');
+    const galleryParent = document.querySelector('.detail-view__gallery');
+
+    if (gallery && galleryParent) {
         gallery.classList.remove('gallery--fullscreen');
+        document.body.classList.remove('gallery-fullscreen-active');
+        galleryParent.insertBefore(gallery, galleryParent.firstChild);
     }
 }
 
