@@ -55,15 +55,31 @@
         </section>
     </main>
 
-    <!-- Selection Bar -->
-    <div class="selection-bar" id="selection-bar">
-        <div class="selection-bar__container">
-            <div class="selection-bar__info">
-                <span class="selection-bar__count"><span id="selection-count">0</span> color(s) selected</span>
+    <!-- Selection Floating Button -->
+    <div class="selection-fab" id="selection-fab">
+        <button class="selection-fab__button" id="selection-fab-toggle" aria-label="View selections">
+            <svg class="selection-fab__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"></path>
+                <rect x="9" y="3" width="6" height="4" rx="1"></rect>
+                <path d="M9 12l2 2 4-4"></path>
+            </svg>
+            <span class="selection-fab__count" id="selection-count">0</span>
+        </button>
+        <div class="selection-fab__panel" id="selection-panel">
+            <div class="selection-fab__header">
+                <span class="selection-fab__title">Selected Colors</span>
+                <button class="selection-fab__close" id="selection-panel-close" aria-label="Close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
             </div>
-            <div class="selection-bar__actions">
-                <button class="btn btn--secondary" id="clear-selections">Clear</button>
-                <button class="btn btn--primary" id="submit-selections">Submit Selections</button>
+            <div class="selection-fab__list" id="selection-list">
+                <!-- Selected colors will be inserted here -->
+            </div>
+            <div class="selection-fab__actions">
+                <button class="btn btn--secondary btn--sm" id="clear-selections">Clear All</button>
+                <button class="btn btn--primary btn--sm" id="submit-selections">Submit</button>
             </div>
         </div>
     </div>

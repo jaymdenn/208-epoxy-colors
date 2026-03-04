@@ -229,10 +229,15 @@ const elements = {
     filterButtons: document.querySelectorAll('.filter-btn'),
     patioSection: document.querySelector('[data-category="patio"]'),
     garageSection: document.querySelector('[data-category="garage"]'),
-    selectionBar: document.getElementById('selection-bar'),
+    // Selection FAB elements
+    selectionFab: document.getElementById('selection-fab'),
+    selectionFabToggle: document.getElementById('selection-fab-toggle'),
+    selectionPanelClose: document.getElementById('selection-panel-close'),
+    selectionList: document.getElementById('selection-list'),
     selectionCount: document.getElementById('selection-count'),
     clearSelectionsBtn: document.getElementById('clear-selections'),
     submitSelectionsBtn: document.getElementById('submit-selections'),
+    // Detail modal
     detailModal: document.getElementById('detail-modal'),
     detailImage: document.getElementById('detail-image'),
     detailName: document.getElementById('detail-name'),
@@ -341,15 +346,66 @@ function updateColorCardState(colorId) {
     }
 }
 
-function updateSelectionBar() {
+function updateSelectionFab() {
     const count = appState.selectedColors.size;
     elements.selectionCount.textContent = count;
 
     if (count > 0) {
-        elements.selectionBar.classList.add('selection-bar--visible');
+        elements.selectionFab.classList.add('selection-fab--visible');
     } else {
-        elements.selectionBar.classList.remove('selection-bar--visible');
+        elements.selectionFab.classList.remove('selection-fab--visible');
+        elements.selectionFab.classList.remove('selection-fab--open');
     }
+
+    // Update the selection list in the panel
+    updateSelectionList();
+}
+
+function updateSelectionList() {
+    elements.selectionList.innerHTML = '';
+
+    if (appState.selectedColors.size === 0) {
+        elements.selectionList.innerHTML = '<div class="selection-fab__empty">No colors selected</div>';
+        return;
+    }
+
+    appState.selectedColors.forEach(id => {
+        const color = findColorById(id);
+        if (color) {
+            const item = document.createElement('div');
+            item.className = 'selection-fab__item';
+            item.innerHTML = `
+                <img src="${color.image}" alt="${color.name}" class="selection-fab__item-image">
+                <div class="selection-fab__item-info">
+                    <div class="selection-fab__item-name">${color.name}</div>
+                    <div class="selection-fab__item-size">${color.flakeSize} - ${color.category}</div>
+                </div>
+                <button class="selection-fab__item-remove" data-color-id="${color.id}" aria-label="Remove ${color.name}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            `;
+            elements.selectionList.appendChild(item);
+        }
+    });
+
+    // Add event listeners to remove buttons
+    elements.selectionList.querySelectorAll('.selection-fab__item-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const colorId = btn.dataset.colorId;
+            toggleColorSelection(colorId);
+        });
+    });
+}
+
+function toggleSelectionPanel() {
+    elements.selectionFab.classList.toggle('selection-fab--open');
+}
+
+function closeSelectionPanel() {
+    elements.selectionFab.classList.remove('selection-fab--open');
 }
 
 function updateDetailSelectButton() {
@@ -372,7 +428,7 @@ function toggleColorSelection(colorId) {
     }
 
     updateColorCardState(colorId);
-    updateSelectionBar();
+    updateSelectionFab();
     updateDetailSelectButton();
     saveToLocalStorage();
 }
@@ -382,7 +438,7 @@ function clearAllSelections() {
     appState.selectedColors.clear();
 
     selectedIds.forEach(id => updateColorCardState(id));
-    updateSelectionBar();
+    updateSelectionFab();
     saveToLocalStorage();
 }
 
@@ -626,9 +682,26 @@ function initializeEventListeners() {
         });
     });
 
-    // Selection bar buttons
-    elements.clearSelectionsBtn.addEventListener('click', clearAllSelections);
-    elements.submitSelectionsBtn.addEventListener('click', openSubmitModal);
+    // Selection FAB buttons
+    elements.selectionFabToggle.addEventListener('click', toggleSelectionPanel);
+    elements.selectionPanelClose.addEventListener('click', closeSelectionPanel);
+    elements.clearSelectionsBtn.addEventListener('click', () => {
+        clearAllSelections();
+        closeSelectionPanel();
+    });
+    elements.submitSelectionsBtn.addEventListener('click', () => {
+        closeSelectionPanel();
+        openSubmitModal();
+    });
+
+    // Close selection panel when clicking outside
+    document.addEventListener('click', (e) => {
+        if (elements.selectionFab.classList.contains('selection-fab--open')) {
+            if (!elements.selectionFab.contains(e.target)) {
+                closeSelectionPanel();
+            }
+        }
+    });
 
     // Detail modal
     elements.detailSelectBtn.addEventListener('click', () => {
@@ -838,7 +911,7 @@ function initializeGallerySwipe() {
 function init() {
     loadFromLocalStorage();
     renderColorGrids();
-    updateSelectionBar();
+    updateSelectionFab();
     initializeEventListeners();
 }
 
