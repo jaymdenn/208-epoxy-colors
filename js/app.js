@@ -453,11 +453,32 @@ function buildGallery(color) {
     elements.galleryTrack.innerHTML = '';
     elements.galleryDots.innerHTML = '';
 
+    // Preload all images
+    images.forEach(imgSrc => {
+        const preloadImg = new Image();
+        preloadImg.src = imgSrc;
+    });
+
     // Create gallery slides
     images.forEach((imgSrc, index) => {
         const slide = document.createElement('div');
         slide.className = 'gallery__slide';
-        slide.innerHTML = `<img src="${imgSrc}" alt="${color.name} - Image ${index + 1}" class="gallery__image">`;
+
+        const img = document.createElement('img');
+        img.className = 'gallery__image';
+        img.alt = `${color.name} - Image ${index + 1}`;
+        img.draggable = false;
+
+        // Add loading state
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.2s ease';
+
+        img.onload = () => {
+            img.style.opacity = '1';
+        };
+
+        img.src = imgSrc;
+        slide.appendChild(img);
         elements.galleryTrack.appendChild(slide);
 
         // Create dot
@@ -478,8 +499,16 @@ function buildGallery(color) {
     elements.galleryDots.style.display = hasMultipleImages ? 'flex' : 'none';
     elements.galleryCounter.style.display = hasMultipleImages ? 'block' : 'none';
 
-    // Reset position
-    updateGalleryPosition();
+    // Reset position immediately without transition
+    elements.galleryTrack.style.transition = 'none';
+    elements.galleryTrack.style.transform = 'translateX(0%)';
+
+    // Re-enable transition after a frame
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            elements.galleryTrack.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        });
+    });
 }
 
 function goToSlide(index) {
@@ -673,81 +702,116 @@ function initializeGallerySwipe() {
 
     let startX = 0;
     let startY = 0;
+    let currentX = 0;
     let isDragging = false;
-    let currentTranslate = 0;
-    let prevTranslate = 0;
+    let isHorizontalSwipe = null; // null = undetermined, true/false after first move
+
+    // Get track width helper
+    const getTrackWidth = () => track.parentElement?.offsetWidth || track.offsetWidth;
 
     track.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
+        currentX = startX;
         isDragging = true;
+        isHorizontalSwipe = null;
         track.style.transition = 'none';
     }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
 
-        const currentX = e.touches[0].clientX;
+        currentX = e.touches[0].clientX;
         const currentY = e.touches[0].clientY;
         const diffX = currentX - startX;
         const diffY = currentY - startY;
 
-        // Only handle horizontal swipes
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            const baseTranslate = -appState.currentGalleryIndex * 100;
-            const percentMoved = (diffX / track.offsetWidth) * 100;
-            currentTranslate = baseTranslate + percentMoved;
-            track.style.transform = `translateX(${currentTranslate}%)`;
+        // Determine swipe direction on first significant move
+        if (isHorizontalSwipe === null && (Math.abs(diffX) > 10 || Math.abs(diffY) > 10)) {
+            isHorizontalSwipe = Math.abs(diffX) > Math.abs(diffY);
         }
-    }, { passive: true });
+
+        // Only handle horizontal swipes
+        if (isHorizontalSwipe) {
+            e.preventDefault();
+            const trackWidth = getTrackWidth();
+            const baseTranslate = -appState.currentGalleryIndex * 100;
+            const percentMoved = (diffX / trackWidth) * 100;
+
+            // Add resistance at edges
+            const images = appState.currentDetailColor?.galleryImages || [appState.currentDetailColor?.image];
+            const isAtStart = appState.currentGalleryIndex === 0 && diffX > 0;
+            const isAtEnd = appState.currentGalleryIndex === images.length - 1 && diffX < 0;
+
+            const resistance = (isAtStart || isAtEnd) ? 0.3 : 1;
+            const finalTranslate = baseTranslate + (percentMoved * resistance);
+
+            track.style.transform = `translateX(${finalTranslate}%)`;
+        }
+    }, { passive: false });
 
     track.addEventListener('touchend', (e) => {
         if (!isDragging) return;
         isDragging = false;
 
-        track.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        track.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
-        const endX = e.changedTouches[0].clientX;
-        const diffX = endX - startX;
-        const threshold = track.offsetWidth * 0.2; // 20% threshold
+        const diffX = currentX - startX;
+        const trackWidth = getTrackWidth();
+        const threshold = trackWidth * 0.15; // 15% threshold for easier swiping
+        const velocity = Math.abs(diffX) / trackWidth;
 
-        if (diffX > threshold) {
+        // Use either threshold or velocity to determine swipe
+        if (diffX > threshold || (diffX > 30 && velocity > 0.1)) {
             prevSlide();
-        } else if (diffX < -threshold) {
+        } else if (diffX < -threshold || (diffX < -30 && velocity > 0.1)) {
             nextSlide();
         } else {
             updateGalleryPosition();
         }
+
+        isHorizontalSwipe = null;
+    });
+
+    track.addEventListener('touchcancel', () => {
+        isDragging = false;
+        isHorizontalSwipe = null;
+        track.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        updateGalleryPosition();
     });
 
     // Mouse drag support for desktop
     track.addEventListener('mousedown', (e) => {
         startX = e.clientX;
+        currentX = startX;
         isDragging = true;
         track.style.transition = 'none';
         track.style.cursor = 'grabbing';
+        e.preventDefault();
     });
 
     track.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         e.preventDefault();
 
-        const diffX = e.clientX - startX;
+        currentX = e.clientX;
+        const diffX = currentX - startX;
+        const trackWidth = getTrackWidth();
         const baseTranslate = -appState.currentGalleryIndex * 100;
-        const percentMoved = (diffX / track.offsetWidth) * 100;
-        currentTranslate = baseTranslate + percentMoved;
-        track.style.transform = `translateX(${currentTranslate}%)`;
+        const percentMoved = (diffX / trackWidth) * 100;
+        track.style.transform = `translateX(${baseTranslate + percentMoved}%)`;
     });
 
     track.addEventListener('mouseup', (e) => {
         if (!isDragging) return;
         isDragging = false;
 
-        track.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        track.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         track.style.cursor = 'grab';
 
-        const diffX = e.clientX - startX;
-        const threshold = track.offsetWidth * 0.2;
+        const diffX = currentX - startX;
+        const trackWidth = getTrackWidth();
+        const threshold = trackWidth * 0.15;
 
         if (diffX > threshold) {
             prevSlide();
@@ -761,7 +825,7 @@ function initializeGallerySwipe() {
     track.addEventListener('mouseleave', () => {
         if (isDragging) {
             isDragging = false;
-            track.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            track.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             track.style.cursor = 'grab';
             updateGalleryPosition();
         }
