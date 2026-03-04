@@ -367,42 +367,82 @@ button {
    =================================== */
 .selection-bar {
     position: fixed;
-    bottom: var(--spacing-lg);
-    left: 50%;
-    transform: translateX(-50%) translateY(calc(100% + 40px));
+    bottom: var(--spacing-md);
+    left: var(--spacing-md);
+    right: var(--spacing-md);
+    transform: translateY(calc(100% + 40px));
     background: var(--secondary);
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-md);
     box-shadow: var(--shadow-2xl);
-    border-radius: var(--radius-2xl);
+    border-radius: var(--radius-xl);
     transition: transform var(--transition-slow);
     z-index: 200;
-    max-width: calc(100% - var(--spacing-xl));
-    width: auto;
 }
 
 .selection-bar--visible {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
 }
 
 .selection-bar__container {
     display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
 }
 
 .selection-bar__info {
     color: white;
+    text-align: center;
 }
 
 .selection-bar__count {
     font-weight: 600;
     font-size: var(--font-size-sm);
-    white-space: nowrap;
 }
 
 .selection-bar__actions {
     display: flex;
     gap: var(--spacing-sm);
+}
+
+.selection-bar__actions .btn {
+    flex: 1;
+    justify-content: center;
+}
+
+/* Desktop: horizontal layout */
+@media (min-width: 480px) {
+    .selection-bar {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(calc(100% + 40px));
+        max-width: calc(100% - var(--spacing-xl));
+        width: auto;
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: var(--radius-2xl);
+    }
+
+    .selection-bar--visible {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .selection-bar__container {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--spacing-lg);
+    }
+
+    .selection-bar__info {
+        text-align: left;
+    }
+
+    .selection-bar__count {
+        white-space: nowrap;
+    }
+
+    .selection-bar__actions .btn {
+        flex: none;
+    }
 }
 
 /* ===================================
@@ -946,10 +986,6 @@ button {
 
     .color-grid {
         gap: var(--spacing-lg);
-    }
-
-    .selection-bar {
-        padding: var(--spacing-md) var(--spacing-xl);
     }
 }
 
