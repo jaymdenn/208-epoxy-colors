@@ -294,28 +294,30 @@ function createColorCard(color) {
     card.innerHTML = `
         <div class="color-card__image-container">
             <img src="${color.image}" alt="${color.name}" class="color-card__image" loading="lazy">
-            <div class="color-card__check">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <polyline points="20,6 9,17 4,12"></polyline>
-                </svg>
-            </div>
         </div>
         <div class="color-card__info">
             <h3 class="color-card__name">${color.name}</h3>
             <p class="color-card__code">${color.code}</p>
             <span class="color-card__badge">${color.flakeSize}</span>
         </div>
+        <button class="color-card__checkbox" aria-label="Select ${color.name}">
+            <svg class="color-card__checkbox-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20,6 9,17 4,12"></polyline>
+            </svg>
+        </button>
     `;
 
-    // Click handler for selection toggle
-    card.addEventListener('click', (e) => {
-        // If clicking on the image area, open detail view
-        if (e.target.closest('.color-card__image-container')) {
-            openDetailModal(color);
-        } else {
-            // If clicking elsewhere, toggle selection
-            toggleColorSelection(color.id);
-        }
+    // Click handler for image - open detail view
+    const imageContainer = card.querySelector('.color-card__image-container');
+    imageContainer.addEventListener('click', () => {
+        openDetailModal(color);
+    });
+
+    // Click handler for checkbox - toggle selection
+    const checkbox = card.querySelector('.color-card__checkbox');
+    checkbox.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleColorSelection(color.id);
     });
 
     return card;

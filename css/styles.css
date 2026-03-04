@@ -302,33 +302,53 @@ button {
     transform: scale(1.08);
 }
 
-.color-card__check {
+/* Checkbox button on card */
+.color-card__checkbox {
     position: absolute;
-    top: var(--spacing-md);
-    right: var(--spacing-md);
-    width: 32px;
-    height: 32px;
-    background: var(--success);
-    border-radius: 50%;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition);
+    z-index: 5;
+    box-shadow: var(--shadow-sm);
+}
+
+.color-card__checkbox:hover {
+    border-color: var(--primary);
+    background: white;
+    transform: scale(1.1);
+}
+
+.color-card__checkbox-icon {
+    width: 16px;
+    height: 16px;
     color: white;
     opacity: 0;
-    transform: scale(0.5) rotate(-45deg);
-    transition: all var(--transition-bounce);
-    box-shadow: var(--shadow-md);
+    transform: scale(0.5);
+    transition: all var(--transition);
 }
 
-.color-card--selected .color-card__check {
+.color-card--selected .color-card__checkbox {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.color-card--selected .color-card__checkbox:hover {
+    background: #059669;
+    border-color: #059669;
+}
+
+.color-card--selected .color-card__checkbox-icon {
     opacity: 1;
-    transform: scale(1) rotate(0deg);
-}
-
-.color-card__check svg {
-    width: 18px;
-    height: 18px;
-    stroke-width: 3;
+    transform: scale(1);
 }
 
 .color-card__info {
