@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Estimate | 208 Epoxy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__container">
+            <div class="header__brand">
+                <a href="index.html">
+                    <img src="Images/logo.png" alt="208 Epoxy Flooring" class="header__logo-img">
+                </a>
+                <p class="header__tagline">Project Estimator</p>
+            </div>
+            <p class="header__instructions">Get an instant estimate for your epoxy flooring project.</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="page-nav">
+        <div class="page-nav__container">
+            <a href="index.html" class="page-nav__link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Color Selection
+            </a>
+            <a href="estimate.html" class="page-nav__link page-nav__link--active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                Project Estimate
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="estimator">
+            <div class="estimator__card">
+                <div class="estimator__header">
+                    <h1 class="estimator__title">Epoxy Floor Estimate</h1>
+                    <p class="estimator__subtitle">Garage & Patio - Full Flake with Polyaspartic Topcoat</p>
+                </div>
+
+                <div class="estimator__form">
+                    <!-- Square Footage Input -->
+                    <div class="estimator__field">
+                        <label for="sqft" class="estimator__label">Project Square Footage</label>
+                        <div class="estimator__input-group">
+                            <input type="number" id="sqft" class="estimator__input" placeholder="Enter square feet" min="0" step="1">
+                            <span class="estimator__input-suffix">sq ft</span>
+                        </div>
+                        <p class="estimator__hint">Measure length x width of your space</p>
+                    </div>
+
+                    <!-- Saw Cut Fill Option -->
+                    <div class="estimator__field">
+                        <label class="estimator__checkbox-label">
+                            <input type="checkbox" id="sawcut" class="estimator__checkbox">
+                            <span class="estimator__checkbox-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                    <polyline points="20,6 9,17 4,12"></polyline>
+                                </svg>
+                            </span>
+                            <span class="estimator__checkbox-text">
+                                <strong>Saw Cut Fill</strong>
+                                <span class="estimator__checkbox-price">+$0.95/sq ft</span>
+                            </span>
+                        </label>
+                        <p class="estimator__hint">Polyurea industrial mortar fill for a seamless finish. Adds half to full day of labor.</p>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div class="estimator__results" id="results">
+                    <div class="estimator__result-row estimator__result-row--hidden" id="result-call">
+                        <div class="estimator__call-notice">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            <div>
+                                <p class="estimator__call-title">Call for Pricing</p>
+                                <p class="estimator__call-text">Projects under 200 sq ft require custom pricing. Please contact us for a quote.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="result-details" class="estimator__result-row--hidden">
+                        <div class="estimator__breakdown">
+                            <div class="estimator__breakdown-row">
+                                <span class="estimator__breakdown-label">Square Footage</span>
+                                <span class="estimator__breakdown-value" id="display-sqft">0 sq ft</span>
+                            </div>
+                            <div class="estimator__breakdown-row">
+                                <span class="estimator__breakdown-label">Base Rate</span>
+                                <span class="estimator__breakdown-value" id="display-rate">$0.00/sq ft</span>
+                            </div>
+                            <div class="estimator__breakdown-row" id="sawcut-row" style="display: none;">
+                                <span class="estimator__breakdown-label">Saw Cut Fill</span>
+                                <span class="estimator__breakdown-value">+$0.95/sq ft</span>
+                            </div>
+                            <div class="estimator__breakdown-row estimator__breakdown-row--total">
+                                <span class="estimator__breakdown-label">Effective Rate</span>
+                                <span class="estimator__breakdown-value" id="display-total-rate">$0.00/sq ft</span>
+                            </div>
+                        </div>
+
+                        <div class="estimator__total">
+                            <span class="estimator__total-label">Estimated Total</span>
+                            <span class="estimator__total-value" id="display-total">$0</span>
+                        </div>
+
+                        <div class="estimator__timeline">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12,6 12,12 16,14"></polyline>
+                            </svg>
+                            <div>
+                                <p class="estimator__timeline-title" id="timeline-title">2-Day Installation</p>
+                                <p class="estimator__timeline-text" id="timeline-text">Walk on surface minimum 24 hours after completion</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="estimator__empty" id="result-empty">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 7h6M9 11h6M9 15h4"></path>
+                            <rect x="4" y="3" width="16" height="18" rx="2"></rect>
+                        </svg>
+                        <p>Enter your square footage above to see your estimate</p>
+                    </div>
+                </div>
+
+                <!-- Pricing Tiers Info -->
+                <div class="estimator__tiers">
+                    <h3 class="estimator__tiers-title">Online Booking Special Pricing</h3>
+                    <div class="estimator__tiers-grid">
+                        <div class="estimator__tier">
+                            <span class="estimator__tier-range">200-400 sq ft</span>
+                            <span class="estimator__tier-price">$5.50/sq ft</span>
+                        </div>
+                        <div class="estimator__tier">
+                            <span class="estimator__tier-range">400-800 sq ft</span>
+                            <span class="estimator__tier-price">$5.25/sq ft</span>
+                        </div>
+                        <div class="estimator__tier">
+                            <span class="estimator__tier-range">800-1,200 sq ft</span>
+                            <span class="estimator__tier-price">$5.00/sq ft</span>
+                        </div>
+                        <div class="estimator__tier">
+                            <span class="estimator__tier-range">1,200-1,600 sq ft</span>
+                            <span class="estimator__tier-price">$4.75/sq ft</span>
+                        </div>
+                        <div class="estimator__tier">
+                            <span class="estimator__tier-range">1,600-2,000+ sq ft</span>
+                            <span class="estimator__tier-price">$4.66/sq ft</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="estimator__cta">
+                    <a href="index.html" class="btn btn--secondary">Browse Colors</a>
+                    <a href="https://208epoxy.com/contact" target="_blank" class="btn btn--primary">Request Quote</a>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <p class="estimator__disclaimer">
+                * This is an estimate only. Final pricing may vary based on floor condition, prep work required, and other factors.
+                Contact us for an accurate quote.
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <p>&copy; 2024 <a href="https://208epoxy.com" target="_blank">208 Epoxy Flooring</a>. All rights reserved.</p>
+            <p class="footer__disclaimer">Estimates are for reference only. Contact us for accurate project pricing.</p>
+        </div>
+    </footer>
+
+    <script src="js/estimate.js"></script>
+</body>
+</html>

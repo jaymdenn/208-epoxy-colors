@@ -1263,3 +1263,462 @@ button {
     background: rgba(45, 106, 133, 0.2);
     color: var(--text-primary);
 }
+
+/* ===================================
+   Page Navigation
+   =================================== */
+.page-nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-light);
+    padding: var(--spacing-sm) var(--spacing-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.page-nav__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+}
+
+.page-nav__link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: all var(--transition);
+}
+
+.page-nav__link:hover {
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.page-nav__link--active {
+    background: var(--primary);
+    color: white;
+}
+
+.page-nav__link--active:hover {
+    background: var(--primary-dark);
+    color: white;
+}
+
+.page-nav__link svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ===================================
+   Project Estimator
+   =================================== */
+.estimator {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+}
+
+.estimator__card {
+    background: var(--surface);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.estimator__header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    padding: var(--spacing-xl);
+    color: white;
+    text-align: center;
+}
+
+.estimator__title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+}
+
+.estimator__subtitle {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+.estimator__form {
+    padding: var(--spacing-xl);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.estimator__field {
+    margin-bottom: var(--spacing-lg);
+}
+
+.estimator__field:last-child {
+    margin-bottom: 0;
+}
+
+.estimator__label {
+    display: block;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.estimator__input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.estimator__input {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    padding-right: 70px;
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition);
+    -moz-appearance: textfield;
+}
+
+.estimator__input::-webkit-outer-spin-button,
+.estimator__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.estimator__input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(45, 106, 133, 0.1);
+}
+
+.estimator__input-suffix {
+    position: absolute;
+    right: var(--spacing-md);
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.estimator__hint {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+}
+
+/* Custom Checkbox */
+.estimator__checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.estimator__checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    cursor: pointer;
+    padding: var(--spacing-md);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition);
+}
+
+.estimator__checkbox-label:hover {
+    border-color: var(--primary-light);
+    background: var(--background);
+}
+
+.estimator__checkbox:checked + .estimator__checkbox-box + .estimator__checkbox-text {
+    color: var(--text-primary);
+}
+
+.estimator__checkbox-box {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    margin-top: 2px;
+}
+
+.estimator__checkbox-box svg {
+    width: 14px;
+    height: 14px;
+    color: white;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all var(--transition);
+}
+
+.estimator__checkbox:checked + .estimator__checkbox-box {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.estimator__checkbox:checked + .estimator__checkbox-box svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.estimator__checkbox-text {
+    flex: 1;
+}
+
+.estimator__checkbox-text strong {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.estimator__checkbox-price {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* Results */
+.estimator__results {
+    padding: var(--spacing-xl);
+    background: var(--background);
+}
+
+.estimator__result-row--hidden {
+    display: none;
+}
+
+.estimator__call-notice {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: var(--primary);
+    color: white;
+    border-radius: var(--radius-lg);
+}
+
+.estimator__call-notice svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.estimator__call-title {
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+}
+
+.estimator__call-text {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+.estimator__breakdown {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.estimator__breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) 0;
+    font-size: var(--font-size-sm);
+}
+
+.estimator__breakdown-row:not(:last-child) {
+    border-bottom: 1px solid var(--border-light);
+}
+
+.estimator__breakdown-label {
+    color: var(--text-secondary);
+}
+
+.estimator__breakdown-value {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.estimator__breakdown-row--total {
+    border-top: 2px solid var(--border);
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-md);
+}
+
+.estimator__breakdown-row--total .estimator__breakdown-label,
+.estimator__breakdown-row--total .estimator__breakdown-value {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.estimator__total {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.estimator__total-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin-bottom: var(--spacing-xs);
+}
+
+.estimator__total-value {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.estimator__timeline {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-light);
+}
+
+.estimator__timeline svg {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.estimator__timeline-title {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.estimator__timeline-text {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.estimator__empty {
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--text-muted);
+}
+
+.estimator__empty svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.5;
+}
+
+.estimator__empty p {
+    font-size: var(--font-size-sm);
+}
+
+/* Pricing Tiers */
+.estimator__tiers {
+    padding: var(--spacing-xl);
+    border-top: 1px solid var(--border-light);
+}
+
+.estimator__tiers-title {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.estimator__tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.estimator__tier {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--background);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xs);
+}
+
+.estimator__tier:last-child {
+    grid-column: span 2;
+}
+
+.estimator__tier-range {
+    color: var(--text-secondary);
+}
+
+.estimator__tier-price {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* CTA */
+.estimator__cta {
+    display: flex;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-xl);
+}
+
+.estimator__cta .btn {
+    flex: 1;
+    justify-content: center;
+}
+
+.estimator__disclaimer {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: var(--spacing-lg);
+    padding: 0 var(--spacing-md);
+}
+
+/* Responsive */
+@media (min-width: 480px) {
+    .estimator__tiers-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .estimator__tier:nth-last-child(2),
+    .estimator__tier:last-child {
+        grid-column: span 1;
+    }
+}
+
+@media (min-width: 768px) {
+    .estimator {
+        padding: var(--spacing-xl);
+    }
+
+    .estimator__tiers-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .estimator__tier {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-xs);
+    }
+}
