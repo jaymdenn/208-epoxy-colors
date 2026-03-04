@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Selection | 208 Epoxy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__container">
+            <div class="header__brand">
+                <img src="Images/logo.png" alt="208 Epoxy Flooring" class="header__logo-img">
+                <p class="header__tagline">Color Selection Tool</p>
+            </div>
+            <p class="header__instructions">Browse our epoxy floor colors, select your favorites, and submit your choices.</p>
+        </div>
+    </header>
+
+    <!-- Category Filter -->
+    <nav class="filter-bar">
+        <div class="filter-bar__container">
+            <button class="filter-btn filter-btn--active" data-filter="all">All Colors</button>
+            <button class="filter-btn" data-filter="patio">Patio (1/8")</button>
+            <button class="filter-btn" data-filter="garage">Garage (1/4")</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Patio Section -->
+        <section class="color-section" data-category="patio">
+            <div class="section-header">
+                <h2 class="section-title">Patio Colors</h2>
+                <p class="section-subtitle">1/8" Flake Size - Perfect for outdoor spaces</p>
+            </div>
+            <div class="color-grid" id="patio-grid">
+                <!-- Colors will be inserted by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Garage Section -->
+        <section class="color-section" data-category="garage">
+            <div class="section-header">
+                <h2 class="section-title">Garage Floor Colors</h2>
+                <p class="section-subtitle">1/4" Flake Size - Ideal for garage and workshop floors</p>
+            </div>
+            <div class="color-grid" id="garage-grid">
+                <!-- Colors will be inserted by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Selection Bar -->
+    <div class="selection-bar" id="selection-bar">
+        <div class="selection-bar__container">
+            <div class="selection-bar__info">
+                <span class="selection-bar__count"><span id="selection-count">0</span> color(s) selected</span>
+            </div>
+            <div class="selection-bar__actions">
+                <button class="btn btn--secondary" id="clear-selections">Clear</button>
+                <button class="btn btn--primary" id="submit-selections">Submit Selections</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Detail Modal -->
+    <div class="modal" id="detail-modal">
+        <div class="modal__backdrop"></div>
+        <div class="modal__content modal__content--detail">
+            <button class="modal__close" aria-label="Close">&times;</button>
+            <div class="detail-view">
+                <div class="detail-view__gallery">
+                    <div class="gallery">
+                        <div class="gallery__container">
+                            <div class="gallery__track" id="gallery-track">
+                                <!-- Gallery slides will be inserted by JavaScript -->
+                            </div>
+                        </div>
+                        <button class="gallery__nav gallery__nav--prev" id="gallery-prev" aria-label="Previous image">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15,18 9,12 15,6"></polyline>
+                            </svg>
+                        </button>
+                        <button class="gallery__nav gallery__nav--next" id="gallery-next" aria-label="Next image">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9,6 15,12 9,18"></polyline>
+                            </svg>
+                        </button>
+                        <div class="gallery__counter" id="gallery-counter">1 / 1</div>
+                    </div>
+                    <div class="gallery__dots" id="gallery-dots">
+                        <!-- Dots will be inserted by JavaScript -->
+                    </div>
+                </div>
+                <div class="detail-view__info">
+                    <h2 class="detail-view__name" id="detail-name"></h2>
+                    <p class="detail-view__code" id="detail-code"></p>
+                    <p class="detail-view__size" id="detail-size"></p>
+                    <p class="detail-view__category" id="detail-category"></p>
+                    <button class="btn btn--primary btn--full" id="detail-select">
+                        <span class="btn__icon">+</span>
+                        Add to Selection
+                    </button>
+                </div>
+            </div>
+            <!-- Hidden element for backwards compatibility -->
+            <img src="" alt="" class="detail-view__image" id="detail-image" style="display: none;">
+        </div>
+    </div>
+
+    <!-- Submit Modal -->
+    <div class="modal" id="submit-modal">
+        <div class="modal__backdrop"></div>
+        <div class="modal__content modal__content--form">
+            <button class="modal__close" aria-label="Close">&times;</button>
+            <h2 class="modal__title">Submit Your Selections</h2>
+
+            <div class="selected-colors" id="selected-colors-display">
+                <!-- Selected colors will be displayed here -->
+            </div>
+
+            <form id="submission-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <input type="hidden" name="_subject" value="New Color Selection from 208epoxy.com">
+                <input type="hidden" name="selectedColors" id="selected-colors-input">
+
+                <div class="form-group">
+                    <label for="name" class="form-label">Name *</label>
+                    <input type="text" id="name" name="name" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email *</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="tel" id="phone" name="phone" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label for="project-type" class="form-label">Project Type</label>
+                    <select id="project-type" name="projectType" class="form-select">
+                        <option value="">Select a project type</option>
+                        <option value="garage">Garage Floor</option>
+                        <option value="patio">Patio / Outdoor</option>
+                        <option value="commercial">Commercial Space</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes" class="form-label">Additional Notes</label>
+                    <textarea id="notes" name="notes" class="form-textarea" rows="3" placeholder="Tell us about your project..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--full">
+                    Send Color Selections
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal__backdrop"></div>
+        <div class="modal__content modal__content--success">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                </svg>
+            </div>
+            <h2 class="modal__title">Thank You!</h2>
+            <p class="success-message">Your color selections have been submitted. We'll be in touch soon!</p>
+            <button class="btn btn--primary" id="success-close">Close</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <p>&copy; 2024 <a href="https://208epoxy.com" target="_blank">208 Epoxy Flooring</a>. All rights reserved.</p>
+            <p class="footer__disclaimer">Colors shown are for reference only. Actual colors may vary. Request a physical sample for best color accuracy.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
