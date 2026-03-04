@@ -1,4 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Blue circle background -->
   <circle cx="256" cy="256" r="256" fill="#2D6A85"/>
-  <text x="256" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="180" fill="white">208</text>
+  <!-- Idaho state outline - white filled, centered -->
+  <g transform="translate(156, 45) scale(1.1)">
+    <path fill="white" d="
+      M 85 0
+      L 85 25
+      L 80 50
+      L 72 80
+      L 62 110
+      L 50 140
+      L 42 160
+      L 52 163
+      L 65 167
+      L 80 170
+      L 80 190
+      L 82 220
+      L 85 250
+      L 88 280
+      L 90 310
+      L 93 340
+      L 96 370
+      L 100 390
+      L 180 390
+      L 180 370
+      L 178 340
+      L 176 310
+      L 174 280
+      L 172 250
+      L 170 220
+      L 168 190
+      L 165 165
+      L 152 160
+      L 138 152
+      L 125 140
+      L 118 125
+      L 118 108
+      L 125 90
+      L 135 70
+      L 140 50
+      L 140 25
+      L 140 0
+      Z
+    "/>
+  </g>
 </svg>
