@@ -124,8 +124,9 @@
                 <!-- Selected colors will be displayed here -->
             </div>
 
-            <form id="submission-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-                <input type="hidden" name="_subject" value="New Color Selection from 208epoxy.com">
+            <form id="submission-form" name="color-selections" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="color-selections">
+                <input type="hidden" name="bot-field">
                 <input type="hidden" name="selectedColors" id="selected-colors-input">
 
                 <div class="form-group">

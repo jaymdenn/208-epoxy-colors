@@ -564,14 +564,11 @@ function handleFormSubmit(e) {
 
     const formData = new FormData(e.target);
 
-    // For demo purposes, we'll simulate submission
-    // In production, remove this and let form submit naturally
-    fetch(e.target.action, {
+    // Submit to Netlify Forms
+    fetch('/', {
         method: 'POST',
-        body: formData,
-        headers: {
-            'Accept': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
     })
     .then(response => {
         if (response.ok) {
