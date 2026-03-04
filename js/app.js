@@ -250,6 +250,7 @@ const elements = {
     galleryNext: document.getElementById('gallery-next'),
     galleryDots: document.getElementById('gallery-dots'),
     galleryCounter: document.getElementById('gallery-counter'),
+    galleryFullscreen: document.getElementById('gallery-fullscreen'),
     submitModal: document.getElementById('submit-modal'),
     selectedColorsDisplay: document.getElementById('selected-colors-display'),
     selectedColorsInput: document.getElementById('selected-colors-input'),
@@ -487,6 +488,10 @@ function openModal(modalElement) {
 function closeModal(modalElement) {
     modalElement.classList.remove('modal--open');
     document.body.style.overflow = '';
+    // Exit fullscreen mode when closing detail modal
+    if (modalElement === elements.detailModal) {
+        exitGalleryFullscreen();
+    }
 }
 
 function openDetailModal(color) {
@@ -611,6 +616,20 @@ function updateGalleryCounter() {
     }
 }
 
+function toggleGalleryFullscreen() {
+    const gallery = document.querySelector('.gallery');
+    if (gallery) {
+        gallery.classList.toggle('gallery--fullscreen');
+    }
+}
+
+function exitGalleryFullscreen() {
+    const gallery = document.querySelector('.gallery');
+    if (gallery) {
+        gallery.classList.remove('gallery--fullscreen');
+    }
+}
+
 function openSubmitModal() {
     if (appState.selectedColors.size === 0) {
         alert('Please select at least one color before submitting.');
@@ -719,6 +738,9 @@ function initializeEventListeners() {
     }
     if (elements.galleryNext) {
         elements.galleryNext.addEventListener('click', nextSlide);
+    }
+    if (elements.galleryFullscreen) {
+        elements.galleryFullscreen.addEventListener('click', toggleGalleryFullscreen);
     }
 
     // Gallery touch/swipe support
