@@ -707,6 +707,7 @@ function initializeEventListeners() {
     elements.detailSelectBtn.addEventListener('click', () => {
         if (appState.currentDetailColor) {
             toggleColorSelection(appState.currentDetailColor.id);
+            closeModal(elements.detailModal);
         }
     });
 
